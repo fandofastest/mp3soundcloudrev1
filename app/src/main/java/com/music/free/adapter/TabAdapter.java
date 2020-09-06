@@ -14,8 +14,8 @@ import com.music.free.musicapp.SongsFragment;
 
 public class TabAdapter extends FragmentStatePagerAdapter {
 
-   static final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "SONGS", "SEARCH"};
+   static final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[] { "TOP SONGS", "SEARCH","GENRE"};
 
 
 
@@ -35,6 +35,9 @@ public class TabAdapter extends FragmentStatePagerAdapter {
 
                 SearchFragment searchFragment = new SearchFragment();
                 return searchFragment;
+            case 3:
+//                GenreFragment genreFragment= new GenreFragment();
+//                return  genreFragment;
 
             default:
 

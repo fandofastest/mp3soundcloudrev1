@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 
 
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -82,7 +84,7 @@ public class SongsFragment extends Fragment {
     }
 
     private void prepareMovieData() {
-        searchQuery(q);
+        gettopchart();
         songAdapter.notifyDataSetChanged();
 
     }
@@ -141,6 +143,86 @@ public class SongsFragment extends Fragment {
         }, error -> Log.e("err",error.getMessage()));
 
         Volley.newRequestQueue(getContext()).add(jsonObjectRequest);
+
+
+    }
+
+
+    public void gettopchart(){
+//        String url="https://api-v2.soundcloud.com/charts?charts-top:all-music&&high_tier_only=false&kind=top&limit=100&client_id=z7xDdzwjM6kB7fmXCd06c8kU6lFNtBCT";
+        String url="https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Areggae&client_id="+Constants.getKey()+"&limit=100&offset=0";
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+//                linearLayout.setVisibility(View.GONE);
+//                System.out.println(response);
+
+
+                try {
+                    JSONArray jsonArray1=response.getJSONArray("collection");
+
+                    for (int i = 0;i<jsonArray1.length();i++){
+                        JSONObject jsonObject1=jsonArray1.getJSONObject(i);
+                        JSONObject jsonObject=jsonObject1.getJSONObject("track");
+                        SongModalClass listModalClass = new SongModalClass();
+                        listModalClass.setId(jsonObject.getString("id"));
+                        listModalClass.setSongName(jsonObject.getString("title"));
+                        listModalClass.setImgurl(jsonObject.getString("artwork_url"));
+                        listModalClass.setDuration(jsonObject.getString("full_duration"));
+                        listModalClass.setType("online");
+
+
+                        try {
+                            JSONObject jsonArray3=jsonObject.getJSONObject("publisher_metadata");
+                            listModalClass.setArtistName(jsonArray3.getString("artist"));
+
+                        }
+                        catch (JSONException e){
+                            listModalClass.setArtistName("Artist");
+
+                        }
+
+
+//                        System.out.println(jsonArray3);
+
+
+                        Constants.addListsongModalClasses(listModalClass);
+//
+
+
+
+//                        Toast.makeText(getActivity(),id,Toast.LENGTH_LONG).show();
+
+
+                    }
+
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                songAdapter.notifyDataSetChanged();
+                if (ctx instanceof MainActivity) {
+                    ((MainActivity)ctx).hideLoading();
+                }
+//                songAdapter.notifyDataSetChanged();
+                //    System.out.println("update"+listsongModalSearch);
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        Volley.newRequestQueue(ctx).add(jsonObjectRequest);
 
 
     }
