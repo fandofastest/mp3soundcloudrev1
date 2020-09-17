@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.music.free.modalclass.LocalModel;
 import com.music.free.modalclass.SongModalClass;
 
 
@@ -46,6 +48,7 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 //    List <Lrc> lrcs;
     int currentpost=0;
     int newpost;
+    private  String type;
 
     // Handler to update UI timer, progress bar etc,.
     private Handler mHandler = new Handler();
@@ -75,6 +78,17 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 
                     if (status.equals("playing")) {
 
+                        tvtitle.setText(MediaPlayerService.currenttitle);
+                        tvartist.setText(MediaPlayerService.currentartist);
+                        imgpause.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        try {
+                            Glide.with(getApplicationContext()).load(MediaPlayerService.currentimageurl).error(R.drawable.icon).into(imageView);
+                        }
+                        catch (Exception e){
+                            imageView.setImageResource(R.drawable.icon);
+                        }
 
                         playMediaPlayer();
 
@@ -144,11 +158,12 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
             imageView = findViewById(R.id.imagefoto);
 
             pos=getIntent().getIntExtra("pos",0);
+            type=getIntent().getStringExtra("type");
 
             tvtitle.setText("Please Wait Preparing Your Music");
             tvartist.setText("");
 
-            playmusic(pos);
+        playmusic(pos,type);
 
 
 
@@ -185,20 +200,34 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 
     }
 
-    public void playmusic(int pos) {
+    public void playmusic(int pos,String type) {
+
+//        Log.e("tyoe",type);
         currentpost=pos;
 
-        SongModalClass songModalClass = MediaPlayerService.currentplay.get(pos);
-        tvartist.setText(songModalClass.getArtistName());
-        tvtitle.setText(songModalClass.getSongName());
+        if (type.equals("online")){
+            SongModalClass songModalClass = MediaPlayerService.currentplay.get(pos);
+            tvartist.setText(songModalClass.getArtistName());
+            tvtitle.setText(songModalClass.getSongName());
+            Glide.with(getApplicationContext()).load(songModalClass.getImgurl()).error(R.drawable.icon).into(imageView);
 
-        Glide.with(getApplicationContext()).load(songModalClass.getImgurl()).error(R.drawable.icon).into(imageView);
+        }
+
+        else {
+            LocalModel songModalClass = MediaPlayerService.localplaylists.get(pos);
+            tvartist.setText(songModalClass.getType());
+            tvtitle.setText(songModalClass.getFilename());
+            imageView.setImageResource(R.drawable.bg);
+        }
+
+
 
 
 
         Intent plyerservice = new Intent(PlayerActivity.this, MediaPlayerService.class);
 
-        plyerservice.putExtra("mediaurl", Constants.getServerurl() + songModalClass.getId());
+        plyerservice.putExtra("pos", pos);
+        plyerservice.putExtra("type", type);
 
 
         startService(plyerservice);
@@ -245,43 +274,38 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
         mHandler.removeCallbacks(mUpdateTimeTask);
     }
 
-
-    public void next(){
-
-        if (currentpost==MediaPlayerService.currentplay.size()-1){
-            newpost= 0;
-
-        }
-        else {
-            newpost=currentpost+1;
-        }
-
-        playmusic(newpost);
-
-        progressBar.setVisibility(View.VISIBLE);
+    public void next (){
+        tvsongcurrentduration.setText("");
+        tvsongtotalduration.setText("");
+        tvtitle.setText("Please Wait");
+        tvartist.setText("");
         imgpause.setVisibility(View.GONE);
+        imageView.setImageResource(R.color.white);
+        progressBar.setVisibility(View.VISIBLE);
+        Intent intent = new Intent("fando");
+        intent.putExtra("status", "next");
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        mHandler.post(mUpdateTimeTask);
 
+    }
+    public void prev (){
+        tvsongcurrentduration.setText("");
+        tvsongtotalduration.setText("");
+        tvtitle.setText("Please Wait");
+        tvartist.setText("");
+        imgpause.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.color.white);
+        Intent intent = new Intent("fando");
+        intent.putExtra("status", "prev");
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        mHandler.post(mUpdateTimeTask);
 
     }
 
-    public void prev(){
 
 
 
-        if (currentpost==0){
-              newpost= MediaPlayerService.currentplay.size()-1;
-
-        }
-        else {
-            newpost=currentpost-1;
-        }
-
-        playmusic(newpost);
-        progressBar.setVisibility(View.VISIBLE);
-        imgpause.setVisibility(View.GONE);
-
-
-    }
 
     public void pauseMediaPlayer() {
         imgplay.setVisibility(View.VISIBLE);

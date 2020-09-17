@@ -116,7 +116,9 @@ public class GenreFragment extends Fragment {
         }
 
 
-
+        if (getContext() instanceof MainActivity) {
+            ((MainActivity)getContext()).hideLoading();
+        }
 
         mAdapter.notifyDataSetChanged();
 

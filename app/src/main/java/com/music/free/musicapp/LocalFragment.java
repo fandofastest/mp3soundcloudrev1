@@ -1,12 +1,29 @@
 package com.music.free.musicapp;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.music.free.adapter.LocalAdapter;
+import com.music.free.adapter.SongAdapter;
+import com.music.free.modalclass.LocalModel;
+
+import static com.music.free.musicapp.MediaPlayerService.listsong;
 
 
 /**
@@ -24,7 +41,10 @@ public class LocalFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    RecyclerView recycle;
+    private LocalAdapter songAdapter;
+    LinearLayout admoblayout;
+    Context ctx;
     public LocalFragment() {
         // Required empty public constructor
     }
@@ -59,7 +79,72 @@ public class LocalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_local, container, false);
+        View view = inflater.inflate(R.layout.fragment_local, container, false);
+
+
+        ctx=getContext();
+
+        recycle = view.findViewById(R.id.recycle);
+
+
+        if (ctx instanceof MainActivity) {
+            ((MainActivity)ctx).showLoading();
+        }
+        songAdapter = new LocalAdapter(MediaPlayerService.localplaylists,ctx);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recycle.setLayoutManager(mLayoutManager);
+        recycle.setItemAnimator(new DefaultItemAnimator());
+        recycle.setAdapter(songAdapter);
+
+        admoblayout=view.findViewById(R.id.banner_container);
+        Ads ads  = new Ads();
+        Display display =getActivity().getWindowManager().getDefaultDisplay();
+        ads.ShowBannerAds(ctx,admoblayout,Constants.getBannerfan(),Constants.getBanner(),display);
+
+
+
+
+
+        return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getMusic();
+    }
+
+    public void getMusic(){
+
+        MediaPlayerService.localplaylists.clear();
+        recycle.removeAllViews();
+
+
+        Uri allSongsUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        Cursor cursor =  getContext().getContentResolver().query(allSongsUri, null, null, null, selection);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    LocalModel modalClass = new LocalModel();
+                    modalClass.setFilename(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+                    modalClass.setFilepath(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+                    modalClass.setSize(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.SIZE)));
+                    modalClass.setDuration(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+                    modalClass.setType("offline");
+                    MediaPlayerService.localplaylists.add(modalClass);
+
+
+
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        if (ctx instanceof MainActivity) {
+            ((MainActivity)ctx).hideLoading();
+        }
+        songAdapter.notifyDataSetChanged();
+    }
+
 }

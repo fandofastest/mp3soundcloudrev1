@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.robinhood.spark:spark:1.1.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/65bf07258e853b139c49c940c0973582/jetified-spark-1.1.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/65bf07258e853b139c49c940c0973582/jetified-spark-1.1.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/65bf07258e853b139c49c940c0973582/jetified-spark-1.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d82fea26ec41f912c8eacd9ad60a7aa9/jetified-spark-1.1.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d82fea26ec41f912c8eacd9ad60a7aa9/jetified-spark-1.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d82fea26ec41f912c8eacd9ad60a7aa9/jetified-spark-1.1.0/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.robinhood.spark/spark/1.1.0/416b702d2f3287f5e0c6c054b536df66d4db03/spark-1.1.0-javadoc.jar!/" />

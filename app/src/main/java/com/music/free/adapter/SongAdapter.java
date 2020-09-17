@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.krossovochkin.bottomsheetmenu.BottomSheetMenu;
+import com.music.free.modalclass.LocalModel;
 import com.music.free.musicapp.Ads;
 import com.music.free.musicapp.Constants;
 import com.music.free.musicapp.MediaPlayerService;
@@ -48,6 +49,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> {
 
     private List<SongModalClass> songModalClassList;
+
     private Context ctx;
 
 
@@ -61,6 +63,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
         private TextView    txttime;
         private ImageView img;
         private LinearLayout lytlayout;
+
 
 
         public MyViewHolder(View view) {
@@ -80,6 +83,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
     }
 
     public SongAdapter(List<SongModalClass> songModalClassList, Context context) {
+
         this.songModalClassList = songModalClassList;
         this.ctx=context;
 
@@ -129,7 +133,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
 
                 }
                 else {
-                    inflater.inflate(R.menu.menu, menu);
+                        inflater.inflate(R.menu.menu, menu);
+
+
                 }
 
 
@@ -153,10 +159,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
                         ads.setCustomObjectListener(new Ads.MyCustomObjectListener() {
                             @Override
                             public void onAdsfinish() {
+
                                 Intent intent = new Intent(ctx, PlayerActivity.class);
                                 intent.putExtra("pos",position);
+                                intent.putExtra("type","online");
                                 ctx.startActivities(new Intent[]{intent});
                                 MediaPlayerService.currentplay=songModalClassList;
+
+
+
                             }
 
                             @Override

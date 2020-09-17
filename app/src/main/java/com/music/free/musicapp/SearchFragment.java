@@ -102,7 +102,11 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getsongs(MainActivity.noworigingenre,"genre");
+
+        if (MainActivity.postab==1){
+            getsongs(MainActivity.noworigingenre,"genre");
+        }
+
     }
 
     public void getsongs(final String q, final String type){
@@ -121,7 +125,7 @@ public class SearchFragment extends Fragment {
             public void onResponse(JSONObject response) {
 
 //                linearLayout.setVisibility(View.GONE);
-            Log.e("url",url);
+//            Log.e("url",url);
                 if (type.equals("genre")){
                     try {
                         JSONArray jsonArray1=response.getJSONArray("collection");

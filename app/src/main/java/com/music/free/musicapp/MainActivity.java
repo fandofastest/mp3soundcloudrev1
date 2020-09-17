@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView  imgsearch;
      Typeface mTypeface;
     LinearLayout progresly;
-    public static String nowgenre="",noworigingenre="";
+    public static String nowgenre="rock",noworigingenre="rock";
 
-
+    public  static int postab=0;
 
 
     FragmentRefreshListener fragmentRefreshListener;
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void gototab(int tab){
         Log.e("kilked", MainActivity.noworigingenre);
-
+        MainActivity.postab=tab;
         viewPager.setCurrentItem(tab,true);
 //        Fragment activeFragment = tabAdapter.getItem(tab);
 //        ((SearchFragment)activeFragment).getsongs(MainActivity.noworigingenre,"genre");

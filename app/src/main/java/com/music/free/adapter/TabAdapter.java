@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.music.free.musicapp.GenreFragment;
 import com.music.free.musicapp.LocalFragment;
+import com.music.free.musicapp.MainActivity;
 import com.music.free.musicapp.SearchFragment;
 import com.music.free.musicapp.SongsFragment;
 
@@ -33,7 +34,6 @@ public class TabAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new SongsFragment();
             case 1:
-
                 return new SearchFragment();
             case 2:
                 return new GenreFragment();
