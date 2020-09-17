@@ -18,19 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-
 import com.bumptech.glide.Glide;
-
-import com.lauzy.freedom.library.Lrc;
-import com.lauzy.freedom.library.LrcHelper;
 import com.music.free.modalclass.SongModalClass;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
+
 
 
 /**
@@ -197,7 +188,7 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
     public void playmusic(int pos) {
         currentpost=pos;
 
-        SongModalClass songModalClass = Constants.getListsongModalClasses().get(pos);
+        SongModalClass songModalClass = MediaPlayerService.currentplay.get(pos);
         tvartist.setText(songModalClass.getArtistName());
         tvtitle.setText(songModalClass.getSongName());
 
@@ -257,7 +248,7 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 
     public void next(){
 
-        if (currentpost==Constants.getListsongModalClasses().size()-1){
+        if (currentpost==MediaPlayerService.currentplay.size()-1){
             newpost= 0;
 
         }
@@ -267,6 +258,10 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 
         playmusic(newpost);
 
+        progressBar.setVisibility(View.VISIBLE);
+        imgpause.setVisibility(View.GONE);
+
+
     }
 
     public void prev(){
@@ -274,7 +269,7 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
 
 
         if (currentpost==0){
-              newpost= Constants.getListsongModalClasses().size()-1;
+              newpost= MediaPlayerService.currentplay.size()-1;
 
         }
         else {
@@ -282,7 +277,8 @@ public class PlayerActivity extends AppCompatActivity implements CommonFragment.
         }
 
         playmusic(newpost);
-
+        progressBar.setVisibility(View.VISIBLE);
+        imgpause.setVisibility(View.GONE);
 
 
     }

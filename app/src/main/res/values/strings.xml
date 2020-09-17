@@ -7,4 +7,6 @@
     <string name="quitbutton">Sure Quit</string>
     <string name="rate">Rate</string>
     <string name="termsurl">https://play.google.com/intl/en-us_us/about/play-terms/index.html</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

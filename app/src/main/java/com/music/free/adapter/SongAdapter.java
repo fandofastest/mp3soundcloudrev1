@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.krossovochkin.bottomsheetmenu.BottomSheetMenu;
 import com.music.free.musicapp.Ads;
 import com.music.free.musicapp.Constants;
+import com.music.free.musicapp.MediaPlayerService;
 import com.music.free.musicapp.PlayerActivity;
 
 import com.music.free.musicapp.R;
@@ -155,6 +156,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
                                 Intent intent = new Intent(ctx, PlayerActivity.class);
                                 intent.putExtra("pos",position);
                                 ctx.startActivities(new Intent[]{intent});
+                                MediaPlayerService.currentplay=songModalClassList;
                             }
 
                             @Override

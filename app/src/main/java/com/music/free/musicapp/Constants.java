@@ -70,35 +70,19 @@ public class Constants {
         Constants.ads = ads;
     }
 
-    public static List<SongModalClass> getListsongModalClasses() {
-        return listsongModalClasses;
-    }
 
 
 
-    public static void setListsongModalClassesClear() {
-        Constants.listsongModalClasses.clear();
-    }
-
-    public static void addListsongModalClasses(SongModalClass songModalClass) {
-        Constants.listsongModalClasses.add(songModalClass);
-    }
 
 
-    public static void setListsongModalClasses(List<SongModalClass> listsongModalClasses) {
-        Constants.listsongModalClasses = listsongModalClasses;
-    }
 
-    static List<SongModalClass> listsongModalClasses = new ArrayList<>();
+
 
 
     public static String getQuerysearch() {
         return querysearch;
     }
 
-    public static void setQuerysearch(String querysearch) {
-        Constants.querysearch = querysearch;
-    }
 
     public static String getKey() {
         return key;
@@ -184,23 +168,5 @@ public class Constants {
         return serverurl;
     }
 
-    public static void setServerurl(String serverurl) {
-        Constants.serverurl = serverurl;
-    }
 
-    public static String getDownloaddir() {
-        return downloaddir;
-    }
-
-    public static void setDownloaddir(String downloaddir) {
-        Constants.downloaddir = downloaddir;
-    }
-
-    public static String getUrlstatus() {
-        return urlstatus;
-    }
-
-    public static void setUrlstatus(String urlstatus) {
-        Constants.urlstatus = urlstatus;
-    }
 }

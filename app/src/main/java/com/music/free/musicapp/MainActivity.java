@@ -10,12 +10,15 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView  imgsearch;
      Typeface mTypeface;
     LinearLayout progresly;
+    public static String nowgenre="",noworigingenre="";
+
 
 
 
@@ -70,9 +75,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tabAdapter = new TabAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabAdapter);
+
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(1);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewPager.getAdapter().notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         play= findViewById(R.id.play);
         pause= findViewById(R.id.pause);
@@ -157,6 +181,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
 //        super.onBackPressed();
         exitdialog();
+
+    }
+
+    public void gototab(int tab){
+        Log.e("kilked", MainActivity.noworigingenre);
+
+        viewPager.setCurrentItem(tab,true);
+//        Fragment activeFragment = tabAdapter.getItem(tab);
+//        ((SearchFragment)activeFragment).getsongs(MainActivity.noworigingenre,"genre");
 
     }
 

@@ -30,6 +30,8 @@ import org.json.JSONObject;
 import com.music.free.adapter.SongAdapter;
 import com.music.free.modalclass.SongModalClass;
 
+import static com.music.free.musicapp.MediaPlayerService.listsong;
+
 /**
  * Created by Remmss on 28-08-2017.
  */
@@ -56,7 +58,7 @@ public class SongsFragment extends Fragment {
         if (ctx instanceof MainActivity) {
             ((MainActivity)ctx).showLoading();
         }
-        songAdapter = new SongAdapter(Constants.getListsongModalClasses(),ctx);
+        songAdapter = new SongAdapter(listsong,ctx);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recycle.setLayoutManager(mLayoutManager);
         recycle.setItemAnimator(new DefaultItemAnimator());
@@ -72,7 +74,7 @@ public class SongsFragment extends Fragment {
         prepareMovieData();
 
         ((MainActivity)getActivity()).setFragmentRefreshListener(() -> {
-            Constants.setListsongModalClassesClear();
+            listsong.clear();
             recycle.removeAllViews();
             searchQuery(Constants.getQuerysearch());
             songAdapter.notifyDataSetChanged();
@@ -92,7 +94,8 @@ public class SongsFragment extends Fragment {
 
 
     public void searchQuery(String q){
-
+        listsong.clear();
+        recycle.removeAllViews();
 
 
         String url="https://api-v2.soundcloud.com/search/tracks?q="+q+"&client_id="+Constants.getKey()+"&limit=100";
@@ -122,7 +125,7 @@ public class SongsFragment extends Fragment {
                     songModalClass.setArtistName(q);
                     songModalClass.setId(id);
                     songModalClass.setImgurl(imageurl);
-                    Constants.addListsongModalClasses(songModalClass);
+                    listsong.add(songModalClass);
                 }
 
 
@@ -184,10 +187,7 @@ public class SongsFragment extends Fragment {
                         }
 
 
-//                        System.out.println(jsonArray3);
-
-
-                        Constants.addListsongModalClasses(listModalClass);
+                        listsong.add(listModalClass);
 //
 
 

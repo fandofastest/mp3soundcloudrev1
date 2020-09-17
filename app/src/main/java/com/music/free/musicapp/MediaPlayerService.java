@@ -15,12 +15,21 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.music.free.modalclass.SongModalClass;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MediaPlayerService extends Service{
 
 
-        //player
+
+        public static List<SongModalClass> listsong= new ArrayList<>();
+         public static List<SongModalClass> listsongModalSearch = new ArrayList<>();
+    public static List<SongModalClass> currentplay = new ArrayList<>();
+
+    //player
         private MediaPlayer mp = new MediaPlayer();
 
 
