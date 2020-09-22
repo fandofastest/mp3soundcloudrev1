@@ -23,7 +23,6 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.krossovochkin.bottomsheetmenu.BottomSheetMenu;
 import com.music.free.modalclass.LocalModel;
 import com.music.free.modalclass.SongModalClass;
 import com.music.free.musicapp.Ads;
@@ -106,9 +105,9 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.MyViewHolder
 
         final LocalModel modalClass = songModalClassList.get(position);
         holder.txtsongname.setText(modalClass.getFilename());
-        Utils utils = new Utils();
-        String duratiom= utils.milliSecondsToTimer(Long.parseLong(modalClass.getDuration()));
-        holder.txttime.setText(duratiom);
+//        Utils utils = new Utils();
+//        String duratiom= utils.milliSecondsToTimer(Long.parseLong(modalClass.getDuration()));
+        holder.txttime.setVisibility(View.GONE);
 
         holder.txtmoviename.setVisibility(View.GONE);
 

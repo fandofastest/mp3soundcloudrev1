@@ -3,10 +3,12 @@ package com.music.free.musicapp;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -114,6 +116,7 @@ public class LocalFragment extends Fragment {
         getMusic();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public void getMusic(){
 
         MediaPlayerService.localplaylists.clear();
